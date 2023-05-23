@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: message-service
+
+server:
+  port: 8080
+
+# Zuul Configuration
+zuul:
+  routes:
+    message-service:
+      path: /message/**
+      serviceId: message-service
+      stripPrefix: false
+  ignored-services: '*'
+  prefix: /api
+
+# Eureka Configuration (if using service discovery)
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
+
+security:
+  oauth2:
+    client:
+      client-id: eugenez-client-id
+      client-secret: eugenez-client-secret
+      access-token-uri: http://localhost:8080/oauth/token
+    resource:
+      user-profile-uri: http://localhost:8080/userinfo
+      mesage-api-uri: http://localhost:8080/message
